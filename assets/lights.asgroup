@@ -1,0 +1,35 @@
+[
+  {
+    "type": "program",
+    "id": "lights.shader.rect",
+    "shaders": [
+      "lights.shader.vert.twopoint",
+      "lights.shader.frag.rect"
+    ]
+  },
+  {
+    "type": "shader",
+    "shaderType": "fragment",
+    "id": "lights.shader.frag.rect",
+    "src": "/lights/shader/rect.f.glsl"
+  },
+  {
+    "type": "shader",
+    "shaderType": "vertex",
+    "id": "lights.shader.vert.twopoint",
+    "src": "/lights/shader/twopoint.v.glsl",
+    "attributes": [
+      { "name": "worldPos" },
+      { "name": "vertPos" },
+      { "name": "aPos" },
+      { "name": "bPos" },
+      { "name": "radius" },
+      { "name": "color" }
+    ]
+  },
+  {
+    "type": "texture",
+    "id": "lights.lightmap",
+    "src": "/lights/lightmap.png"
+  }
+]
