@@ -16,11 +16,13 @@ export default () => {
     draw(res) {
       res.matrix.transform.rotate(angle);
       res.shapes.setColor(colors.grass);
-      res.shapes.rect(-200, -200, 400, 400);
+      //res.shapes.rect(-200, -200, 400, 400);
+      res.shapes.circle(0, 0, 200);
       res.shapes.setColor(colors.dirt);
-      res.shapes.rect(-185, -185, 370, 370);
+      //res.shapes.rect(-185, -185, 370, 370);
+      res.shapes.circle(0, 0, 185);
       res.lights.setColor(colors.light);
-      res.lights.rect(-200, -200, 400, 400, 80, 10);
+      res.lights.point(0, 0, 80, 210);
     },
     turnRight() {
       targetAngle+= Math.PI / 2;
