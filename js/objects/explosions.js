@@ -106,6 +106,13 @@ export let LargeExplosion = (x, y) => {
       res.shapes.setColor(color);
       let r = Math.min(100, self.lifetime*50/50);
       res.shapes.circle(0, 0, r);
+      res.lights.setColor(TempColor(1, 1, 1, 0.1));
+      res.lights.point(0, 0, 60, r);
+    },
+    drawLights(res) {
+      let r = Math.min(100, self.lifetime*50/50);
+      res.lights.setColor(Colors.WHITE);
+      res.lights.point(self.x, self.y, 60, r);
     },
     tick(delta) {
       self.lifetime+= delta;

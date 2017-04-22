@@ -3,9 +3,11 @@ import SpaceBackground from "../objects/spaceBackground.js";
 import SkyBackground from "../objects/skyBackground.js";
 import Earth from "../objects/earth.js";
 import Player from "../objects/player.js";
+import Turret from "../objects/turret.js";
 import FadeTransition from "../transitions/fade.js";
 
 import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
+
 let obstacleColor = Color(0.3, 0.3, 0.3, 1.0);
 
 let Obstacle = (ax1, ay1, ax2, ay2) => {
@@ -34,6 +36,7 @@ let stateFactory = (game, transition) => {
     inputEnabled: true,
     initialize(state) {
       s = state;
+      //s.lightingEnabled = true;
       let binds = {
         left: ["ArrowLeft", "a"],
         right: ["ArrowRight", "d"],
@@ -46,15 +49,21 @@ let stateFactory = (game, transition) => {
       });
       state.add(SpaceBackground());
       state.add(Player());
-      state.add(Obstacle(-2000, 200, 2000, 2000));
-      state.add(Obstacle(-2000, -200, 2000, -2000));
-      state.add(Obstacle(300, 0, 600, 200));
+      state.add(Obstacle(-2000, 200, 20000, 2000));
+      state.add(Obstacle(-2000, -200, 20000, -2000));
+      state.add(Obstacle(1000, 0, 1300, 200));
+      state.add(Turret(800, 200, "up"));
     },
     preTick(delta, time) {
       self.scrollX+= self.scrollVX * delta;
       self.scrollY+= self.scrollVY * delta;
     },
     preDraw(res) {
+      res.matrix.transform.translate(-self.scrollX, -self.scrollY);
+    },
+    preLights(res) {
+      res.shapes.setColor(TempColor(1, 1, 1, 0.7));
+      res.shapes.rect(-res.r.cwidth/2, -res.r.cheight/2, res.r.cwidth, res.r.cheight);
       res.matrix.transform.translate(-self.scrollX, -self.scrollY);
     },
     uniformTick(time) {

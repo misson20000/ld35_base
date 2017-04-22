@@ -20,16 +20,19 @@ export default () => {
       s = state;
     },
     draw(res) {
+      res.lights.setColor(TempColor(1, 1, 1, 0.1));
+      res.lights.point(self.x-10, self.y, 50, 0);
       res.shapes.setColor(Colors.WHITE);
       res.matrix.transform.translate(self.x, self.y);
       res.shapes.triangle(-20, 20, -20, -20, 20, 0);
       for(let i = 1; i < 5; i++) {
-        res.matrix.transform.translate(-self.xv*5.0/200, -self.yv*5.0/200);
+        res.matrix.transform.translate(-(self.xv+b.scrollVX*10)*5.0/200, -self.yv*5.0/200);
         res.shapes.setColor(TempColor(1, 1, 1, (5-i)/10));
         res.shapes.triangle(-20, 20, -20, -20, 20, 0);
       }
     },
     tick(delta) {
+      self.x+= b.scrollVX * delta;
       self.x+= self.xv;
       self.y+= self.yv;
       let friction = 0.035;
@@ -72,7 +75,9 @@ export default () => {
           self.yv+= delta*0.05;
         }
         if(b.binds.fire.justPressed()) {
-          s.add(Bullet(self));
+          s.add(Bullet(self, 0));
+          s.add(Bullet(self, Math.PI / 6));
+          s.add(Bullet(self, -Math.PI / 6));
         }
       }
       for(let i = 0; i < s.objects.length; i++) {

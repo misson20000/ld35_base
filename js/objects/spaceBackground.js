@@ -2,7 +2,7 @@ import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
 import {modulo} from "../math.js";
 
 let colors = {
-  bg: Colors.BLACK,
+  bg: Color("#010312"),
   star: Colors.WHITE
 };
 
@@ -35,7 +35,8 @@ export default () => {
     draw(res) {
       // unscroll
       res.matrix.transform.translate(self.b.scrollX, self.b.scrollY);
-      res.shapes.setColor(Colors.BLACK);
+      res.shapes.setColor(colors.bg);
+      res.shapes.rect(-res.r.cwidth, -res.r.cheight, res.r.cwidth*2, res.r.cheight*2);
       
       for(let i = 0; i < stars.length; i++) {
         drawStar(res, stars[i]);

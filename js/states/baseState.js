@@ -163,7 +163,12 @@ export default (game, transition, behaviour) => {
         gl.blendEquation(gl.FUNC_ADD);
       }
       gl.blendFunc(gl.ONE, gl.ONE);
+
+      self.setupFrame();
       
+      if(behaviour.preLights) {
+        behaviour.preLights(drawingResources);
+      }
       for(let i = 0; i < objects.length; i++) {
         matStack.push(matrix);
         if(objects[i].drawLights) {
