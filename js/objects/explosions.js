@@ -24,7 +24,7 @@ export let SmallExplosion = (x, y) => {
 };
 
 let orange = Color("FFB300");
-let yellow = Color("BBFF00");
+let yellow = Color("FFFF00");
 let particle = Color(0.2, 0.2, 0.2, 1);
 
 let Particle = (x, y) => {
