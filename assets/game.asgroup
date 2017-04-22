@@ -1,12 +1,2 @@
 [
-  {
-    "type": "sound",
-    "id": "game.sfx.fuse1",
-    "src": "/game/sfx/fuse1.wav"
-  },
-  {
-    "type": "sound",
-    "id": "game.sfx.fuse2",
-    "src": "/game/sfx/fuse2.wav"
-  }
 ]
