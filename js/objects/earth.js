@@ -14,15 +14,17 @@ export default () => {
   let targetAngle = 0;
   let self = {
     draw(res) {
+      let r = 1000;
+      res.matrix.transform.translate(0, res.r.cheight/2+700);
       res.matrix.transform.rotate(angle);
+      res.lights.setColor(colors.light);
+      res.lights.point(0, 0, 80, r+10);
       res.shapes.setColor(colors.grass);
       //res.shapes.rect(-200, -200, 400, 400);
-      res.shapes.circle(0, 0, 200);
+      res.shapes.circle(0, 0, r);
       res.shapes.setColor(colors.dirt);
       //res.shapes.rect(-185, -185, 370, 370);
-      res.shapes.circle(0, 0, 185);
-      res.lights.setColor(colors.light);
-      res.lights.point(0, 0, 80, 210);
+      res.shapes.circle(0, 0, r-15);
     },
     turnRight() {
       targetAngle+= Math.PI / 2;
