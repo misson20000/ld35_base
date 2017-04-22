@@ -183,6 +183,9 @@ export default (game, transition, behaviour) => {
     },
     getKeyboard() {
       return kb;
+    },
+    setTransition(t) {
+      transition = t;
     }
   };
   return self;
