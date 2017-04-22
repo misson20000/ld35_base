@@ -135,7 +135,6 @@ export default (game, transition, behaviour) => {
       matrix.transform.scale(2.0/r.cwidth, -2.0/r.cheight);
       matrix.transform.translateFloor(r.cwidth/2, r.cheight/2);
       matrix.transform.translate((Math.random() * 2 - 1) * shake, (Math.random() * 2 - 1) * shake);
-      matrix.transform.scale(4.0);
     },
     drawColors() {
       if(behaviour.preDraw) {

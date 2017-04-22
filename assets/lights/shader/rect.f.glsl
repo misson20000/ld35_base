@@ -16,7 +16,7 @@ vec2 dist2d(vec2 p, vec2 a, vec2 b) {
 }
 
 void main(void) {
-  vec4 color = vec4(vColor.a * vColor.rgb, clamp(1.0+vRad.y/vRad.x-length(dist2d(vPos, vA, vB))/vRad.x, 0.0, 1.0));
+  vec4 color = vec4(vColor.rgb, vColor.a * clamp(1.0+vRad.y/vRad.x-length(dist2d(vPos, vA, vB))/vRad.x, 0.0, 1.0));
   gl_FragColor = vec4(color.rgb * color.a, color.a);
   //gl_FragColor = vec4(1);
 }

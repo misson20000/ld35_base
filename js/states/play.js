@@ -1,5 +1,6 @@
 import BaseState from "./baseState.js";
-import CheckerboardBackground from "../objects/checkerboardBg.js";
+import SkyBackground from "../objects/skyBackground.js";
+import Earth from "../objects/earth.js";
 
 let self = {
   binds: {},
@@ -12,9 +13,10 @@ let self = {
       fire: ["LeftShift", "RightShift", "z", "x"]
     }
     Object.keys(binds).forEach((key) => {
-      self.binds[key] = state.keyboard.createKeybind.call(null, binds[key]);
+      self.binds[key] = state.keyboard.createKeybind.apply(null, binds[key]);
     });
-    state.add(CheckerboardBackground());
+    state.add(SkyBackground());
+    state.add(Earth());
   }
 };
 

@@ -97,6 +97,15 @@ export default (r, program, maxTriangles = 10000) => {
       bufferVertex(x2, y2);
       bufferVertex(x3, y3);
       writeTriangle();
+    },
+    circle(x, y, r) {
+      for(let i = 0; i < 100; i++) {
+        self.triangle(x, y,
+                      x+Math.cos(i*Math.PI/50)*r,
+                      y+Math.sin(i*Math.PI/50)*r,
+                      x+Math.cos((i+1)*Math.PI/50)*r,
+                      y+Math.sin((i+1)*Math.PI/50)*r);
+      }
     }
   };
 
