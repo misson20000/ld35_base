@@ -57,7 +57,6 @@ export let Keyboard = {
         }
 
         bindings.push(bind);
-        
         return bind;
       },
 

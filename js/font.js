@@ -77,8 +77,14 @@ export default (r, asset) => {
       }
       return w;
     },
-    draw(str, x, y, z) {
+    draw(str, x, y, z, shadowed) {
       if(z === undefined) { z = 0; }
+      if(shadowed == undefined) { shadowed = false; }
+      if(shadowed) {
+        material.setColor(shadow);
+        self.draw(str, x-1, y+1, z, false);
+        material.setColor(color);
+      }
       for(let i = 0; i < str.length; i++) {
         let g = asset.glyphs[str[i]] || asset.glyphs["?"];
         if(!asset.glyphs[str[i]]) {
@@ -94,11 +100,8 @@ export default (r, asset) => {
         x+= g.width;
       }
     },
-    drawShadowed(str, x, y, z=0) {
-      material.setColor(shadow);
-      self.draw(str, x-1, y+1, z);
-      material.setColor(color);
-      self.draw(str, x, y, z);
+    drawCenteredX(str, x, y, z, shadowed) {
+      self.draw(str, x-self.width(str)/2, y, z, shadowed);
     }
   };
   return self;

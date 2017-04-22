@@ -34,6 +34,7 @@ export let ColorUtils = {
 
 let tc = Color(0, 0, 0, 1);
 export let TempColor = (r, g, b, a) => {
+  if(a === undefined) { a = 1; }
   tc.r = r;
   tc.g = g;
   tc.b = b;

@@ -234,3 +234,7 @@ export let invlerp = (a, b, x) => {
 export let modulo = (a, b) => {
   return (a % b + b) % b;
 };
+
+export let roundNearest = (num, interval) => {
+  return Math.round(num/interval)*interval;
+};

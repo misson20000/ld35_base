@@ -1,7 +1,7 @@
 {
-  "name": "dodge",
+  "name": "ld38",
   "version": "1.0.0",
-  "description": "Dodge",
+  "description": "misson20000's ld38 entry",
   "main": "index.js",
   "dependencies": {
     "blob-util": "^1.2.1"

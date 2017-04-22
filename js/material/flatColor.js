@@ -81,11 +81,22 @@ export default (r, program, maxTriangles = 10000) => {
       bufferVertex(x + w, y + 0);
       writeTriangle();
     },
+    rectCorners(x1, y1, x2, y2) {
+      bufferVertex(x1, y1);
+      bufferVertex(x1, y2);
+      bufferVertex(x2, y1);
+      writeTriangle();
+
+      bufferVertex(x2, y2);
+      bufferVertex(x1, y2);
+      bufferVertex(x2, y1);
+      writeTriangle();
+    },
     triangle(x1, y1, x2, y2, x3, y3) {
       bufferVertex(x1, y1);
       bufferVertex(x2, y2);
       bufferVertex(x3, y3);
-      writeTrangle();
+      writeTriangle();
     }
   };
 

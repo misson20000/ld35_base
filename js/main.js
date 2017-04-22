@@ -1,5 +1,7 @@
 import {WebGLRenderer} from "./webgl.js";
 import {PreloaderState} from "./states/preloader.js";
+import {PlayState} from "./states/play.js";
+import RunAndGunDemoState from "./states/runandgundemo.js";
 import {AssetManager} from "./assetmgr.js";
 import {SoundEngine} from "./sound.js";
 import {FontLoader} from "./font.js";
@@ -38,7 +40,7 @@ window.onload = () => {
       }
     };
     
-    game.switchState(PreloaderState(game));
+    game.switchState(PreloaderState(game, RunAndGunDemoState));
     
     AssetManager.addAssetLoader(game.render.assetLoader());
     AssetManager.addAssetLoader(game.sound.createAssetLoader());
