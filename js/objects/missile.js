@@ -1,5 +1,5 @@
 import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
-import {SmallExplosion} from "./explosions.js";
+import {SmallExplosion, MediumExplosion} from "./explosions.js";
 import {linesegIntersection} from "../math2dvec.js";
 
 export default (shooter, angle, isFriendly, xoff, yoff) => {
@@ -21,6 +21,7 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
     yv: 0.3 * sin,
     length, cos, sin,
     isFriendly,
+    isMissile: true,
     angle,
     initialize(state, behaviour) {
       s = state;
@@ -35,13 +36,31 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
     },
     die() {
       self.toBeRemoved = true;
-      s.add(SmallExplosion(temp5.x, temp5.y));
+      s.add(MediumExplosion(temp5.x, temp5.y));
       s.shake(2);
     },
     canHit(o) {
       if(!isFriendly && o == b.player) { return true; }
       if(isFriendly && o.isEnemy) { return true; }
       return o.isObstacle;
+    },
+    hitByBullet(b, delta) {
+      /*
+      temp1.x = b.x;
+      temp1.y = b.y;
+      temp2.x = b.xv * delta + b.length * b.cos;
+      temp2.y = b.yv * delta + b.length * b.sin;
+
+      temp3.x = self.x;
+      temp3.y = self.y;
+      temp4.x = self.xv * delta + self.length * self.cos;
+      temp4.y = self.yv * delta + self.length * self.sin;
+
+      if(linesegIntersection(temp1, temp2, temp3, temp4, temp5)) {
+        self.die();
+        return true;
+      }
+      return false;*/
     },
     hit(o, delta) {
       if(o.hitByBullet) {
@@ -64,20 +83,26 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
       }
       
       if(self.angle < self.targetAngle) {
-        self.angle+= delta/400.0;
+        self.angle+= delta/600.0;
       }
       if(self.angle > self.targetAngle) {
-        self.angle-= delta/400.0;
+        self.angle-= delta/600.0;
       }
       self.cos = Math.cos(self.angle);
       self.sin = Math.sin(self.angle);
       cos = self.cos;
       sin = self.sin;
+      
       self.xv = 0.3 * self.cos;
       self.yv = 0.3 * self.sin;
 
       self.x+= self.xv * delta;
       self.y+= self.yv * delta;
+
+      self.x1 = self.x - length;
+      self.x2 = self.x + length;
+      self.y1 = self.y - length;
+      self.y2 = self.y + length;
       
       for(let i = 0; i < s.objects.length; i++) {
         let o = s.objects[i];

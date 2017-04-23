@@ -40,6 +40,7 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
     canHit(o) {
       if(!isFriendly && o == b.player) { return true; }
       if(isFriendly && o.isEnemy) { return true; }
+      //if(isFriendly != o.isFriendly && o.isMissile) { return true; }
       return o.isObstacle;
     },
     hit(o, delta) {
