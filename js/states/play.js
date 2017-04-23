@@ -70,7 +70,7 @@ let stateFactory = (game, transition, checkpointId) => {
   let player;
   let events = [];
   if(checkpointId === undefined) {
-    checkpointId = 0;
+    checkpointId = 2;
   }
   let checkpoint = checkpoints[checkpointId];
   resetTurretIds();
