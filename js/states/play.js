@@ -7,8 +7,9 @@ import Turret from "../objects/turret.js";
 import FadeTransition from "../transitions/fade.js";
 
 import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
+import {AssetManager} from "../assetmgr.js";
 
-let obstacleColor = Color(0.3, 0.3, 0.3, 1.0);
+let obstacleColor = Color(0.1, 0.1, 0.1, 1.0);
 
 let Obstacle = (ax1, ay1, ax2, ay2) => {
   let x1 = Math.min(ax1, ax2);
@@ -27,6 +28,8 @@ let Obstacle = (ax1, ay1, ax2, ay2) => {
 
 let stateFactory = (game, transition) => {
   let s;
+  let music;
+  let player;
   let self = {
     binds: {},
     scrollX: 0,
@@ -48,11 +51,15 @@ let stateFactory = (game, transition) => {
         self.binds[key] = state.keyboard.createKeybind.apply(null, binds[key]);
       });
       state.add(SpaceBackground());
-      state.add(Player());
+      state.add(self.player = player = Player());
       state.add(Obstacle(-2000, 200, 20000, 2000));
       state.add(Obstacle(-2000, -200, 20000, -2000));
-      state.add(Obstacle(1000, 0, 1300, 200));
-      state.add(Turret(800, 200, "up"));
+      state.add(Obstacle(300, 0, 600, 200));
+      state.add(Turret(1000, 200, "up"));
+
+      window.setTimeout(() => {
+        music = state.game.sound.playMusic(AssetManager.getAsset("game.music"));
+      }, 500);
     },
     preTick(delta, time) {
       self.scrollX+= self.scrollVX * delta;
@@ -74,6 +81,10 @@ let stateFactory = (game, transition) => {
     died() {
       self.playerDead = true;
       s.setTransition(FadeTransition(game, stateFactory));
+      if(music) {
+        music.fadeOut();
+      }
+      s.game.sound.playSound(AssetManager.getAsset("game.sfx.boom"));
     }
   };
   return BaseState(game, transition, self);

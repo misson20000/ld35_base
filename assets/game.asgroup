@@ -1,2 +1,17 @@
 [
+  {
+    "type": "music",
+    "id": "game.music",
+    "src": "/game/music.ogg"
+  },
+  {
+    "type": "sound",
+    "id": "game.sfx.shoot",
+    "src": "/game/shoot.wav"
+  },
+  {
+    "type": "sound",
+    "id": "game.sfx.boom",
+    "src": "/game/boom.wav"
+  }
 ]

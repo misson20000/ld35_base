@@ -19,8 +19,8 @@ export default () => {
       star.y = Math.random();
     }
     star.oldx = x;
-    res.lights.setColor(TempColor(1, 1, 1, 0.1));//0.2/star.z));
-    res.lights.line(x, y, x+(sx*8.0), y+(sy*8.0), 6, 1);
+    //res.lights.setColor(TempColor(1, 1, 1, 0.1));//0.2/star.z));
+    //res.lights.line(x, y, x+(sx*8.0), y+(sy*8.0), 6, 1);
     res.shapes.setColor(TempColor(1, 1, 1, 0.9*star.z/Math.max(1,sx*10)));
     res.shapes.rect(x-1, y-1, 2 + 16 * sx, 2 + 16 * sy);
   };

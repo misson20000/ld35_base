@@ -18,31 +18,21 @@ export let SoundEngine = (game) => {
           });
         },
         "music": (placeholder) => {
-          let tracks = {};
-          let promises = [];
-          for(let name in placeholder.spec.tracks) {
-            let track = placeholder.spec.tracks[name];
-            tracks[name] = [];
-            for(let i = 0; i < track.length; i++) {
-              let media = new Audio();
-              media.loop = true;
-              tracks[name].push(media);
-              promises.push(new Promise((resolve, reject) => { //pre-buffer enough of the track
-                media.oncanplaythrough = resolve;
-                media.onerror = () => {
-                  reject(["!?!?!",
-                          "MEDIA_ERR_ABORTED",
-                          "MEDIA_ERR_NETWORK",
-                          "MEDIA_ERR_DECODE",
-                          "MEDIA_ERR_SRC_NOT_SUPPORTED"][media.error.code] + " on track '" + name + "', source " + i + " (" + track[i] + " -> " + AssetManager.getURL(track[i]) + ")");
-                };
-                media.src = AssetManager.getURL(track[i]);
-              }));
-            }
-          }
-
-          return Promise.all(promises).then(() => {
-            return tracks;
+          let trackPath = placeholder.spec.src;
+          let media = new Audio();
+          media.loop = false;
+          return new Promise((resolve, reject) => { //pre-buffer enough of the track
+            media.oncanplaythrough = () => {resolve(media);};
+            media.onerror = () => {
+              reject(["!?!?!",
+                      "MEDIA_ERR_ABORTED",
+                      "MEDIA_ERR_NETWORK",
+                      "MEDIA_ERR_DECODE",
+                      "MEDIA_ERR_SRC_NOT_SUPPORTED"][media.error.code] + " on track '" + name + "', source " + i + " (" + track[i] + " -> " + AssetManager.getURL(track[i]) + ")");
+            };
+            AssetManager.getFile(trackPath).then((blob) => {
+              media.src = BlobUtil.createObjectURL(blob);
+            });
           });
         }
       };
@@ -72,32 +62,21 @@ export let SoundEngine = (game) => {
       return source;
     },
     playMusic(asset) {
-      let tracks = {};
-      let sources = [];
-      for(let track in asset) {
-        let gain = ctx.createGain();
-        for(let i = 0; i < asset[track].length; i++) {
-          let src = ctx.createMediaElementSource(asset[track][i]);
-          src.connect(gain);
-          asset[track][i].currentTime = 0;
-          asset[track][i].play();
-          sources.push(asset[track][i]);
-        }
-        gain.gain.value = 1;
-        gain.connect(ctx.destination);
-        tracks[track] = gain;
-      }
+      let gain = ctx.createGain();
+      let src = ctx.createMediaElementSource(asset);
+      src.connect(gain);
+      gain.connect(ctx.destination);
+      asset.currentTime = 0;
+      asset.play();
       
       let music = {
         update() {
         },
-        setTrackVolume(name, gain) {
-          tracks[name].gain.value = gain;
-        },
         stop() {
-          for(let i = 0; i < sources.length; i++) {
-            sources[i].pause();
-          }
+          src.pause();
+        },
+        fadeOut() {
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
         }
       };
       return music;

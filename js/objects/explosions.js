@@ -59,7 +59,7 @@ let Particle = (x, y) => {
   return self;
 };
 
-export let MediumExplosion = (x, y) => {
+export let LargeSubExplosion = (x, y) => {
   let self = {
     x, y,
     lifetime: 0,
@@ -90,12 +90,63 @@ export let LargeExplosion = (x, y) => {
     lifetime: 0,
     initialize(state, behaviour) {
       s = state; b = behaviour;
-      s.shake(50);
+      s.shake(100);
       for(let i = 0; i < 10; i++) {
         state.add(Particle(x, y));
       }
       for(let i = 0; i < 4; i++) {
-        subExplosions.push({delay: Math.random() * 100, obj: MediumExplosion(x + Math.random() * 40 - 20, y + Math.random() * 40 - 20)});
+        subExplosions.push({delay: Math.random() * 100, obj: LargeSubExplosion(x + Math.random() * 40 - 20, y + Math.random() * 40 - 20)});
+      }
+    },
+    draw(res) {
+      res.matrix.transform.translate(self.x, self.y);
+
+      let color = TempColor(orange.r, orange.g, orange.b, 1);
+      color.a = 2.0-(self.lifetime/100);
+      res.shapes.setColor(color);
+      let r = Math.min(100, self.lifetime*50/50);
+      res.shapes.circle(0, 0, r);
+      res.lights.setColor(TempColor(1, 1, 1, 0.1));
+      res.lights.point(0, 0, 60, r);
+    },
+    drawLights(res) {
+      let r = Math.min(100, self.lifetime*50/50);
+      res.lights.setColor(Colors.WHITE);
+      res.lights.point(self.x, self.y, 60, r);
+    },
+    tick(delta) {
+      self.lifetime+= delta;
+      let noRemove = false;
+      for(let i = 0; i < subExplosions.length; i++) {
+        if(!subExplosions[i].spawned) {
+          if(self.lifetime > subExplosions[i].delay) {
+            s.add(subExplosions[i].obj);
+          } else {
+            noRemove = true;
+          }
+        }
+      }
+      if(self.lifetime >= 90 && !noRemove) {
+        self.toBeRemoved = true;
+      }
+    }
+  };
+  return self;
+};
+export let MediumExplosion = (x, y) => {
+  let subExplosions = [];
+  let s, b;
+  let self = {
+    x, y,
+    lifetime: 0,
+    initialize(state, behaviour) {
+      s = state; b = behaviour;
+      s.shake(20);
+      for(let i = 0; i < 10; i++) {
+        state.add(Particle(x, y));
+      }
+      for(let i = 0; i < 4; i++) {
+        subExplosions.push({delay: Math.random() * 100, obj: LargeSubExplosion(x + Math.random() * 40 - 20, y + Math.random() * 40 - 20)});
       }
     },
     draw(res) {
