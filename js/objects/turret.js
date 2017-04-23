@@ -10,12 +10,6 @@ let colors = {
   charge: Color(1.0, 0.2, 0.2, 1.0)
 };
 
-let id = 0;
-
-export let resetId = () => {
-  id = 0;
-};
-
 export default (x, y, direction, showLasers, faster, onDeath) => {
   let b, s;
   let temp1 = {};
@@ -37,11 +31,11 @@ export default (x, y, direction, showLasers, faster, onDeath) => {
     dying: false,
     unseeTimer: 0,
     couldSee: false,
-    id: id++,
     initialize(state, behaviour) {
       s = state;
       b = behaviour;
-      if(b.checkpoint.turrets[self.id]) {
+      self.id = b.enemyId++;
+      if(b.checkpoint.enemies[self.id]) {
         self.toBeRemoved = true;
       }
       switch(direction) {
@@ -87,7 +81,7 @@ export default (x, y, direction, showLasers, faster, onDeath) => {
         }, 100);
         s.add(MediumExplosion(self.x, self.y));
         s.game.sound.playSound(AssetManager.getAsset("game.sfx.boom"));
-        b.turretStates[self.id] = true;
+        b.enemyStates[self.id] = true;
         if(onDeath) {
           onDeath();
         }

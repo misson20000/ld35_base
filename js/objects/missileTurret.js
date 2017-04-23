@@ -10,13 +10,16 @@ let colors = {
   charge: Color(1.0, 0.2, 0.2, 1.0)
 };
 
-export default (x, y, direction, quick) => {
+export default (x, y, direction, slowMissiles) => {
   let b, s;
   let temp1 = {};
   let temp2 = {};
   let temp3 = {};
   let temp4 = {};
   let temp5 = {};
+  if(slowMissiles === undefined) {
+    slowMissiles = false;
+  }
   let self = {
     x, y,
     angle: 0,
@@ -28,6 +31,10 @@ export default (x, y, direction, quick) => {
     initialize(state, behaviour) {
       s = state;
       b = behaviour;
+      self.id = b.enemyId++;
+      if(b.checkpoint.enemies[self.id]) {
+        self.toBeRemoved = true;
+      }
       switch(direction) {
       case "up":
         self.x1 = x-40;
@@ -130,7 +137,7 @@ export default (x, y, direction, quick) => {
         self.charge+= delta/1000.0;
         if(self.charge >= 1) {
           self.charge = -1;
-          s.add(Missile(self, self.angle, false, self.shootx - self.x, self.shooty - self.y));
+          s.add(Missile(self, self.angle, false, self.shootx - self.x, self.shooty - self.y, slowMissiles));
         }
       }
 

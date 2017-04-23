@@ -12,10 +12,10 @@ export default (x, y) => {
   let s, b;
   let self = {
     x, y,
-    x1: x-25,
-    x2: x+25,
-    y1: y-25,
-    y2: y+25,
+    x1: x-50,
+    x2: x+50,
+    y1: y-50,
+    y2: y+50,
     rotate: 0,
     isObstacle: true,
     hp: 3,

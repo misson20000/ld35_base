@@ -5,7 +5,7 @@ export default (x, fcn) => {
       b = behaviour;
     },
     tick(delta) {
-      if(b.player.x > x) {
+      if(b.player.x > x && b.player.x < x + 200) {
         fcn();
         this.toBeRemoved = true;
       }

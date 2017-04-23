@@ -2,7 +2,7 @@ import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
 import {SmallExplosion, MediumExplosion} from "./explosions.js";
 import {linesegIntersection} from "../math2dvec.js";
 
-export default (shooter, angle, isFriendly, xoff, yoff) => {
+export default (shooter, angle, isFriendly, xoff, yoff, slow) => {
   let s, b;
   let length = 40;
   let temp1 = {};
@@ -83,10 +83,10 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
       }
       
       if(self.angle < self.targetAngle) {
-        self.angle+= delta/550.0;
+        self.angle+= delta/(slow ? 1300.0 : 550.0);
       }
       if(self.angle > self.targetAngle) {
-        self.angle-= delta/550.0;
+        self.angle-= delta/(slow ? 1300.0 : 550.0);
       }
       self.cos = Math.cos(self.angle);
       self.sin = Math.sin(self.angle);

@@ -141,7 +141,7 @@ export let MediumExplosion = (x, y) => {
     lifetime: 0,
     initialize(state, behaviour) {
       s = state; b = behaviour;
-      s.shake(20);
+      s.shake(12);
       for(let i = 0; i < 10; i++) {
         state.add(Particle(x, y));
       }

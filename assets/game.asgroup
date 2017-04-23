@@ -13,5 +13,10 @@
     "type": "sound",
     "id": "game.sfx.boom",
     "src": "/game/boom.wav"
+  },
+  {
+    "type": "texture",
+    "id": "game.cracks",
+    "src": "/game/cracks.png"
   }
 ]
