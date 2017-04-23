@@ -1,12 +1,12 @@
 import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
-import Bullet from "./bullet.js";
+import Missile from "./missile.js";
 import {linesegIntersection} from "../math2dvec.js";
 import {MediumExplosion} from "./explosions.js";
 import {AssetManager} from "../assetmgr.js";
 
 let colors = {
   base: Color(0.15, 0.15, 0.15, 1.0),
-  gun: Color(0.8, 0.8, 0.8, 1.0),
+  gun: Color(0.8, 0.2, 0.2, 1.0),
   charge: Color(1.0, 0.2, 0.2, 1.0)
 };
 
@@ -127,10 +127,10 @@ export default (x, y, direction) => {
       self.canSee = canSee;
       if(canSee) {
         self.targetAngle = Math.atan2(b.player.y-self.shooty, b.player.x-self.shootx);
-        self.charge+= delta/700.0;
+        self.charge+= delta/1000.0;
         if(self.charge >= 1) {
           self.charge = -1;
-          s.add(Bullet(self, self.angle, false, self.shootx - self.x, self.shooty - self.y));
+          s.add(Missile(self, self.angle, false, self.shootx - self.x, self.shooty - self.y));
         }
       }
 
@@ -190,11 +190,11 @@ export default (x, y, direction) => {
       }
       res.matrix.transform.rotate(self.angle);
       res.shapes.setColor(colors.gun);
-      res.shapes.rect(0, -5, 40, 10);
+      res.shapes.rect(0, -8, 40, 16);
       res.shapes.setColor(colors.base);
-      res.shapes.rect(5, 1, 30, 4);
+      res.shapes.rect(5, 5, 30, 4);
       res.shapes.setColor(colors.charge);
-      res.shapes.rect(5, 1, Math.min(1, Math.max(0, self.charge))*30.0, 4);
+      res.shapes.rect(5, 5, Math.min(1, Math.max(0, self.charge))*30.0, 4);
     },
   };
   return self;
