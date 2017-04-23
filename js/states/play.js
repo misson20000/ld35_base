@@ -93,7 +93,7 @@ let stateFactory = (game, transition, checkpointId) => {
         right: ["ArrowRight", "d"],
         up: ["ArrowUp", "w"],
         down: ["ArrowDown", "s"],
-        fire: ["LeftShift", "RightShift", "z", "x"],
+        fire: ["LeftShift", "RightShift", "z", "x", "h", " ", "j", ",", "."],
         dump: ["d"]
       }
       Object.keys(binds).forEach((key) => {
