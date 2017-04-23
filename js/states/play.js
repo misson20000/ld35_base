@@ -7,12 +7,13 @@ import Turret, {resetId as resetTurretIds} from "../objects/turret.js";
 import MissileTurret from "../objects/missileTurret.js";
 import Glob from "../objects/glob.js";
 import SpeedBooster from "../objects/speedBooster.js";
+import HTrigger from "../objects/hTrigger.js";
 import FadeTransition from "../transitions/fade.js";
 
 import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
 import {AssetManager} from "../assetmgr.js";
 
-let obstacleColor = Color(0.1, 0.1, 0.1, 1.0);
+let obstacleColor = Color(0.2, 0.2, 0.2, 1.0);
 
 let Obstacle = (ax1, ay1, ax2, ay2) => {
   let x1 = Math.min(ax1, ax2);
@@ -43,7 +44,23 @@ let checkpoints = [{
   sx: 2187,
   svx: 0.35,
   music: 21.2,
-  time: 21700,
+  time: 20700,
+  turrets: []
+}, {
+  px: 10100,
+  py: 0,
+  sx: 10347,
+  svx: 0.45,
+  music: 42.41,
+  time: 42400,
+  turrets: []
+}, {
+  px: 18600,
+  py: 0,
+  sx: 18788,
+  svx: 1.0,
+  music: 58.30,
+  time: 57800,
   turrets: []
 }];
 
@@ -114,8 +131,14 @@ let stateFactory = (game, transition, checkpointId) => {
       state.add(Turret(4550, -300, "down"));
       state.add(Turret(4600, -300, "down"));
       state.add(Turret(4650, -300, "down"));
-      state.add(Obstacle(4700, -300, 5200, -50));
-      state.add(Obstacle(4700, 300, 5200, 50));
+      state.add(Obstacle(4700, -300, 4900, -50));
+      state.add(Obstacle(4700, 300, 4900, 50));
+      state.add(Turret(4950, 300, "up", true));
+      state.add(Turret(5000, 300, "up", true));
+      state.add(Turret(5050, 300, "up", true));
+      state.add(Turret(4950, -300, "down"));
+      state.add(Turret(5000, -300, "down"));
+      state.add(Turret(5050, -300, "down"));
       state.add(MissileTurret(5300, -300, "down"));
       state.add(MissileTurret(5300, 300, "up"));
       state.add(MissileTurret(5380, -300, "down"));
@@ -128,6 +151,14 @@ let stateFactory = (game, transition, checkpointId) => {
       state.add(Turret(6000, 200, "left"));
       state.add(Obstacle(7000, -300, 7050, -40));
       state.add(Obstacle(7000, 300, 7050, 40));
+
+      /*state.add(Turret(6650, 300, "up", true));
+      state.add(Turret(6700, 300, "up", true));
+      state.add(Turret(6750, 300, "up", true));
+      state.add(Turret(6650, -300, "down"));
+      state.add(Turret(6700, -300, "down"));
+      state.add(Turret(6750, -300, "down"));*/
+      
       state.add(Glob(7025, 0));
       state.add(SpeedBooster(7050));
       state.add(Obstacle(7050, 200, 7800, 2000));
@@ -146,12 +177,66 @@ let stateFactory = (game, transition, checkpointId) => {
       state.add(MissileTurret(7600, -200, "down", true));
       state.add(MissileTurret(7700, 200, "up", true));
       state.add(MissileTurret(7700, -200, "down", true));
-      state.add(Obstacle(8100, 400, 12000, 2000));
-      state.add(Obstacle(8100, -400, 12000, -2000));
-      state.add(Obstacle(8800, -300, 9000, 300));
-      
-      //10800
 
+
+      state.add(Turret(8550, 400, "up", true));
+      state.add(Turret(8600, 400, "up", true));
+      state.add(Turret(8650, 400, "up", true));
+      state.add(Turret(8550, -400, "down"));
+      state.add(Turret(8600, -400, "down"));
+      state.add(Turret(8650, -400, "down"));
+      
+      state.add(Obstacle(8100, 400, 10320, 2000));
+      state.add(Obstacle(8100, -400, 10320, -2000));
+      state.add(Obstacle(8800, -300, 9000, 300));
+
+      state.add(MissileTurret(9200, 400, "up", true));
+      state.add(MissileTurret(9300, 400, "up", true));
+      state.add(MissileTurret(9400, 400, "up", true));
+      state.add(MissileTurret(9500, 400, "up", true));
+      state.add(MissileTurret(9600, 400, "up", true));
+      state.add(MissileTurret(9700, 400, "up", true));
+
+      // checkpoint 2
+      
+      //10320
+      let TurretCluster = (x, y, type) => {
+        state.add(Obstacle(x-80, y-80, x+80, y+80));
+        state.add(type(x-80, y-40, "left"));
+        state.add(type(x-80, y+40, "left"));
+        state.add(type(x+80, y-40, "right"));
+        state.add(type(x+80, y+40, "right"));
+        state.add(type(x-40, y-80, "up"));
+        state.add(type(x+40, y-80, "up"));
+        state.add(type(x-40, y+80, "down"));
+        state.add(type(x+40, y+80, "down"));
+      };
+
+      TurretCluster(11980, -100, Turret);
+      TurretCluster(12480, -220, MissileTurret);
+      TurretCluster(12980, 100, Turret);
+      TurretCluster(13800, 100, Turret);
+      TurretCluster(14000, 350, Turret);
+
+      TurretCluster(14400, 0, MissileTurret);
+      TurretCluster(14800, -200, Turret);
+      TurretCluster(15400, -250, Turret);
+      TurretCluster(15600, 250, Turret);
+      TurretCluster(16400, -250, Turret);
+      TurretCluster(16600, 250, Turret);
+      
+      // checkpoint 3
+      state.add(Obstacle(18000, -400, 24000, -2000));
+      state.add(Obstacle(18000, 400, 24000, 2000));
+      state.add(Obstacle(18500, -40, 18550, -400));
+      state.add(Obstacle(18500, 40, 18550, 400));
+      state.add(Glob(18525, 0));
+      state.add(HTrigger(18550, () => {
+        self.scrollVXTarget = 0.33;
+        self.scrollVX = 1.0;
+        self.setCheckpoint(3);
+      }));
+      
       player.x = checkpoint.px;
       player.y = checkpoint.py;
       
@@ -167,6 +252,14 @@ let stateFactory = (game, transition, checkpointId) => {
           self.scrollVXTarget = 0.35;
           self.setCheckpoint(1);
         }
+      });
+      events.push({
+        time: 42400,
+        call: () => {
+          self.scrollVXTarget = 0.5;
+          self.scrollVX = 0.75;
+          self.setCheckpoint(2);
+        },
       });
     },
     preTick(delta, time) {
@@ -186,8 +279,10 @@ let stateFactory = (game, transition, checkpointId) => {
       }
     },
     setCheckpoint(num) {
-      self.checkpointId = num;
-      checkpoints[num].turrets = self.turretStates;
+      if(num > self.checkpointId) {
+        self.checkpointId = num;
+        checkpoints[num].turrets = self.turretStates;
+      }
     },
     preDraw(res) {
       res.matrix.transform.translate(-self.scrollX, -self.scrollY);
@@ -213,7 +308,7 @@ let stateFactory = (game, transition, checkpointId) => {
     },
     tick(delta, time) {
       for(let i = 0; i < events.length; i++) {
-        if(time - checkpoint.time > events[i].time && !events[i].activated) {
+        if(time + checkpoint.time > events[i].time && !events[i].activated) {
           events[i].activated = true;
           events[i].call();
         }

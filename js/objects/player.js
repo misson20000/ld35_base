@@ -86,11 +86,7 @@ export default () => {
           self.yv+= delta*0.05;
         }
         if(b.binds.dump.justPressed()) {
-          console.log("px: " + self.x);
-          console.log("py: " + self.y);
-          console.log("sx: " + b.scrollX);
-          console.log("svx: " + b.scrollVX);
-          console.log("music: " + b.music.element.currentTime);
+          self.dumpState();
         }
         if(b.binds.fire.justPressed()) {
           s.add(Bullet(self, 0, true));
@@ -115,6 +111,13 @@ export default () => {
           self.xv+= 0.5 * delta / distancePointLineSeg(self.x, self.y, o.x2, o.y1, o.x2, o.y2);
         }
       }
+    },
+    dumpState() {
+      console.log("px: " + self.x);
+      console.log("py: " + self.y);
+      console.log("sx: " + b.scrollX);
+      console.log("svx: " + b.scrollVX);
+      console.log("music: " + b.music.element.currentTime);
     },
     die() {
       s.add(LargeExplosion(self.x, self.y));
