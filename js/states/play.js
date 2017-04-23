@@ -214,16 +214,16 @@ let stateFactory = (game, transition, checkpointId) => {
 
       TurretCluster(11980, -100, Turret);
       TurretCluster(12480, -220, MissileTurret);
-      TurretCluster(12980, 100, Turret);
+      //TurretCluster(12980, 100, MissileTurret);
       TurretCluster(13800, 100, Turret);
-      TurretCluster(14000, 350, Turret);
+      TurretCluster(14000, 350, MissileTurret);
 
-      TurretCluster(14400, 0, MissileTurret);
+      TurretCluster(14400, 0, Turret);
       TurretCluster(14800, -200, Turret);
-      TurretCluster(15400, -250, Turret);
+      //TurretCluster(15400, -250, MissileTurret);
       TurretCluster(15600, 250, Turret);
-      TurretCluster(16400, -250, Turret);
-      TurretCluster(16600, 250, Turret);
+      TurretCluster(16400, -250, MissileTurret);
+      //TurretCluster(16600, 250, Turret);
       
       // checkpoint 3
       state.add(Obstacle(18000, -400, 24000, -2000));
