@@ -70,6 +70,8 @@ export let SoundEngine = (game) => {
       asset.play();
       
       let music = {
+        src,
+        element: asset,
         update() {
         },
         stop() {

@@ -10,13 +10,25 @@ let colors = {
   charge: Color(1.0, 0.2, 0.2, 1.0)
 };
 
-export default (x, y, direction) => {
+let id = 0;
+
+export let resetId = () => {
+  id = 0;
+};
+
+export default (x, y, direction, showLasers, faster, onDeath) => {
   let b, s;
   let temp1 = {};
   let temp2 = {};
   let temp3 = {};
   let temp4 = {};
   let temp5 = {};
+  if(showLasers === undefined) {
+    showLasers = true;
+  }
+  if(faster === undefined) {
+    faster = 1;
+  }
   let self = {
     x, y,
     angle: 0,
@@ -25,9 +37,13 @@ export default (x, y, direction) => {
     dying: false,
     unseeTimer: 0,
     couldSee: false,
+    id: id++,
     initialize(state, behaviour) {
       s = state;
       b = behaviour;
+      if(b.checkpoint.turrets[self.id]) {
+        self.toBeRemoved = true;
+      }
       switch(direction) {
       case "up":
         self.x1 = x-40;
@@ -63,14 +79,18 @@ export default (x, y, direction) => {
         break;
       }
     },
-    hitByBullet(b) {
-      if(b.isFriendly && !self.dying) {
+    hitByBullet(bu) {
+      if(bu.isFriendly && !self.dying) {
         self.dying = true;
         window.setTimeout(() => {
           self.toBeRemoved = true;
         }, 100);
         s.add(MediumExplosion(self.x, self.y));
         s.game.sound.playSound(AssetManager.getAsset("game.sfx.boom"));
+        b.turretStates[self.id] = true;
+        if(onDeath) {
+          onDeath();
+        }
         return true;
       }
     },
@@ -127,7 +147,7 @@ export default (x, y, direction) => {
       self.canSee = canSee;
       if(canSee) {
         self.targetAngle = Math.atan2(b.player.y-self.shooty, b.player.x-self.shootx);
-        self.charge+= delta/700.0;
+        self.charge+= delta*faster/600.0;
         if(self.charge >= 1) {
           self.charge = -1;
           s.add(Bullet(self, self.angle, false, self.shootx - self.x, self.shooty - self.y));
@@ -163,7 +183,7 @@ export default (x, y, direction) => {
         self.charge*= 0.9;
       }
       if(self.targetAngle !== undefined) {
-        self.angle+= (self.targetAngle - self.angle) * 0.05;
+        self.angle+= (self.targetAngle - self.angle) * 0.05 * (1.0-Math.min(1.0, Math.max(0, self.charge)));
       }
     },
     draw(res) {
@@ -189,6 +209,11 @@ export default (x, y, direction) => {
         break;
       }
       res.matrix.transform.rotate(self.angle);
+      if(showLasers && self.charge > 0) {
+        res.shapes.setColor(TempColor(1, 0, 0, self.charge));
+        res.shapes.rect(0, -1, 4000, 2);
+      }
+
       res.shapes.setColor(colors.gun);
       res.shapes.rect(0, -5, 40, 10);
       res.shapes.setColor(colors.base);

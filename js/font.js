@@ -81,6 +81,7 @@ export default (r, asset) => {
       if(z === undefined) { z = 0; }
       if(shadowed == undefined) { shadowed = false; }
       if(shadowed) {
+        shadow.a = color.a;
         material.setColor(shadow);
         self.draw(str, x-1, y+1, z, false);
         material.setColor(color);

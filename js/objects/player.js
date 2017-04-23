@@ -2,7 +2,7 @@ import {Colors, Color, ColorUtils, TempColor} from "../gfxutils.js";
 import Bullet from "./bullet.js";
 import {LargeExplosion} from "./explosions.js";
 import {AssetManager} from "../assetmgr.js";
-import {linesegIntersection} from "../math2dvec.js";
+import {linesegIntersection, distancePointLineSeg} from "../math2dvec.js";
 
 export default () => {
   let b;
@@ -18,7 +18,7 @@ export default () => {
   let temp4 = {};
   let temp5 = {};
   let self = {
-    x: 0,
+    x: -700,
     y: 0,
     xv: 0,
     yv: 0,
@@ -85,6 +85,13 @@ export default () => {
         if(b.binds.down.isPressed() && self.yv < maxSpeed) {
           self.yv+= delta*0.05;
         }
+        if(b.binds.dump.justPressed()) {
+          console.log("px: " + self.x);
+          console.log("py: " + self.y);
+          console.log("sx: " + b.scrollX);
+          console.log("svx: " + b.scrollVX);
+          console.log("music: " + b.music.element.currentTime);
+        }
         if(b.binds.fire.justPressed()) {
           s.add(Bullet(self, 0, true));
           s.add(Bullet(self, Math.PI / 6, true));
@@ -99,8 +106,13 @@ export default () => {
             let sen = sensors[j];
             if(self.x + sen[0] >= o.x1 && self.x + sen[0] <= o.x2 && self.y + sen[1] >= o.y1 && self.y + sen[1] <= o.y2) {
               self.die();
+              return;
             }
           }
+          self.yv-= 1.0 * delta / distancePointLineSeg(self.x, self.y, o.x1, o.y1, o.x2, o.y1);
+          self.yv+= 1.0 * delta / distancePointLineSeg(self.x, self.y, o.x1, o.y2, o.x2, o.y2);
+          self.xv-= 0.5 * delta / distancePointLineSeg(self.x, self.y, o.x1, o.y1, o.x1, o.y2);
+          self.xv+= 0.5 * delta / distancePointLineSeg(self.x, self.y, o.x2, o.y1, o.x2, o.y2);
         }
       }
     },

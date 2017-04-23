@@ -10,7 +10,7 @@ let colors = {
   charge: Color(1.0, 0.2, 0.2, 1.0)
 };
 
-export default (x, y, direction) => {
+export default (x, y, direction, quick) => {
   let b, s;
   let temp1 = {};
   let temp2 = {};

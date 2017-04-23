@@ -17,11 +17,12 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
   let self = {
     x: shooter.x + xoff,
     y: shooter.y + yoff,
-    xv: 1.3 * cos,
-    yv: 1.3 * sin,
+    xv: (isFriendly ? 1.7 : 1.0) * cos,
+    yv: (isFriendly ? 1.7 : 1.0) * sin,
     length, cos, sin,
     ttl: 700,
     isFriendly,
+    isBullet: true,
     initialize(state, behaviour) {
       s = state;
       b = behaviour;
@@ -40,7 +41,7 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
     canHit(o) {
       if(!isFriendly && o == b.player) { return true; }
       if(isFriendly && o.isEnemy) { return true; }
-      //if(isFriendly != o.isFriendly && o.isMissile) { return true; }
+      if(isFriendly != o.isFriendly && o.isBullet) { return true; }
       return o.isObstacle;
     },
     hit(o, delta) {

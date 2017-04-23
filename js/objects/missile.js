@@ -14,11 +14,12 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
   let sin = Math.sin(angle);
   if(xoff === undefined) { xoff = 0; }
   if(yoff === undefined) { yoff = 0; }
+  let velmag = 0.4;
   let self = {
     x: shooter.x + xoff,
     y: shooter.y + yoff,
-    xv: 0.3 * cos,
-    yv: 0.3 * sin,
+    xv: velmag * cos,
+    yv: velmag * sin,
     length, cos, sin,
     isFriendly,
     isMissile: true,
@@ -26,7 +27,6 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
     initialize(state, behaviour) {
       s = state;
       b = behaviour;
-      console.log("shot " + self.angle);
     },
     draw(res) {
       res.shapes.setColor(Colors.RED);
@@ -83,18 +83,18 @@ export default (shooter, angle, isFriendly, xoff, yoff) => {
       }
       
       if(self.angle < self.targetAngle) {
-        self.angle+= delta/600.0;
+        self.angle+= delta/550.0;
       }
       if(self.angle > self.targetAngle) {
-        self.angle-= delta/600.0;
+        self.angle-= delta/550.0;
       }
       self.cos = Math.cos(self.angle);
       self.sin = Math.sin(self.angle);
       cos = self.cos;
       sin = self.sin;
       
-      self.xv = 0.3 * self.cos;
-      self.yv = 0.3 * self.sin;
+      self.xv = velmag * self.cos;
+      self.yv = velmag * self.sin;
 
       self.x+= self.xv * delta;
       self.y+= self.yv * delta;

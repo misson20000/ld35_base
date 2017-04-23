@@ -152,6 +152,14 @@ export default (game, transition, behaviour) => {
       if(behaviour.draw) {
         behaviour.draw(drawingResources);
       }
+
+      for(let i = 0; i < objects.length; i++) {
+        matStack.push(matrix);
+        if(objects[i].postDraw) {
+          objects[i].postDraw(drawingResources);
+        }
+        matStack.pop(matrix);
+      }
     },
     drawLights() {
       //set up context for lighting
